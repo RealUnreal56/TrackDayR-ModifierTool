@@ -14,13 +14,17 @@ public partial class App : Application
         if (Config.getPath() != "")
         {
             MenuWindow menuWindow = new MenuWindow();
+
+            MainWindow = menuWindow;
             menuWindow.Show();
         }
         else
         {
             MainWindow mainWindow = new MainWindow();
+
+            MainWindow = mainWindow;
             mainWindow.Show();
-        }  
+        }
 
         var updateCheck = await VersionControl.CheckForUpdates();
 
@@ -43,6 +47,5 @@ public partial class App : Application
                 });
             }
         }
-        
     }
 }

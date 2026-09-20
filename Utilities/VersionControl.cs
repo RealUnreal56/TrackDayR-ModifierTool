@@ -1,16 +1,16 @@
 using System.Net.Http;
-using System.Windows;
+using System.Text.Json;
 
 namespace TrackDayRModifier;
 
 public static class VersionControl
 {
-    private const string VersionUrl =
-        "https://drive.google.com/uc?export=download&id=12ql2kj9Wo3btpyUtiSp537xewy8M0s9z";
+    private const string LatestReleaseUrl =
+        "https://api.github.com/repos/RealUnreal56/TrackDayR-Modifier/releases/latest";
 
     public static string GetCurrentVersion()
     {
-        return "1.3";
+        return "1.0.0";
     }
 
     public static async Task<(bool UpdateAvailable, string OnlineVersion)> CheckForUpdates()
@@ -19,8 +19,17 @@ public static class VersionControl
         {
             using HttpClient client = new HttpClient();
 
-            string onlineVersion = await client.GetStringAsync(VersionUrl);
-            onlineVersion = onlineVersion.Trim();
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("TrackDayR-Modifier");
+
+            string json = await client.GetStringAsync(LatestReleaseUrl);
+
+            using JsonDocument document = JsonDocument.Parse(json);
+
+            string onlineVersion = document.RootElement
+                .GetProperty("tag_name")
+                .GetString() ?? "";
+
+            onlineVersion = onlineVersion.TrimStart('v', 'V');
 
             if (!Version.TryParse(GetCurrentVersion(), out Version? currentVersion))
                 return (false, onlineVersion);
