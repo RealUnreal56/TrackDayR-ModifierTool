@@ -6,7 +6,7 @@ namespace ModifierTool;
 public static class VersionControl
 {
     private const string LatestReleaseUrl =
-        "https://api.github.com/repos/RealUnreal56/TrackDayR-Modifier/releases/latest";
+        "https://api.github.com/repos/RealUnreal56/TrackDayR-ModifierTool/releases/latest";
 
     public static string GetCurrentVersion()
     {
