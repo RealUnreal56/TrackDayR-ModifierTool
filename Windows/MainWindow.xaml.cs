@@ -10,7 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 
-namespace TrackDayRModifier;
+namespace ModifierTool;
 
 public partial class MainWindow : Window
 {

@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace TrackDayRModifier;
+namespace ModifierTool;
 
 public static class Config
 {

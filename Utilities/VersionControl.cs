@@ -1,7 +1,7 @@
 using System.Net.Http;
 using System.Text.Json;
 
-namespace TrackDayRModifier;
+namespace ModifierTool;
 
 public static class VersionControl
 {

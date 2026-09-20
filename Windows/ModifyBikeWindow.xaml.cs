@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Markup;
 
-namespace TrackDayRModifier;
+namespace ModifierTool;
 
 public partial class ModifyBikeWindow : Window
 {

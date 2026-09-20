@@ -5,7 +5,7 @@ using System.Windows.Media;
 using Microsoft.Win32;
 
 
-namespace TrackDayRModifier;
+namespace ModifierTool;
 
 public static class ModificationManager
 {

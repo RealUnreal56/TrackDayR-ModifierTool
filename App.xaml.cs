@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 
-namespace TrackDayRModifier;
+namespace ModifierTool;
 
 public partial class App : Application
 {

@@ -11,6 +11,7 @@
 
     <AssemblyName>ModifierTool</AssemblyName>
     <Product>ModifierTool</Product>
+    <RootNamespace>ModifierTool</RootNamespace>
     <Title>ModifierTool</Title>
   </PropertyGroup>
 
