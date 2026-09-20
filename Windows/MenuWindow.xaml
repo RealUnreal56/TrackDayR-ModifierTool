@@ -1,0 +1,401 @@
+<Window x:Class="TrackDayRModifier.MenuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Modifier Tool"
+        Width="1100"
+        Height="700"
+        MinWidth="900"
+        MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#0B0B0C">
+
+    <Window.Resources>
+
+        <!-- ================= COLORS ================= -->
+
+        <SolidColorBrush x:Key="BackgroundBrush" Color="#0B0B0C"/>
+        <SolidColorBrush x:Key="SidebarBrush" Color="#101011"/>
+        <SolidColorBrush x:Key="PanelBrush" Color="#161617"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#29292B"/>
+
+        <SolidColorBrush x:Key="GoldBrush" Color="#FFD21C"/>
+        <SolidColorBrush x:Key="TextBrush" Color="#F2F2F2"/>
+        <SolidColorBrush x:Key="MutedTextBrush" Color="#77777A"/>
+
+
+        <!-- ================= SIDEBAR BUTTON ================= -->
+
+        <Style x:Key="SidebarButton"
+               TargetType="ToggleButton">
+
+            <Setter Property="Background"
+                    Value="Transparent"/>
+
+            <Setter Property="Foreground"
+                    Value="#FFD21C"/>
+
+            <Setter Property="BorderThickness"
+                    Value="0"/>
+
+            <Setter Property="HorizontalContentAlignment"
+                    Value="Left"/>
+
+            <Setter Property="Padding"
+                    Value="20,0"/>
+
+            <Setter Property="Height"
+                    Value="52"/>
+
+            <Setter Property="Margin"
+                    Value="12,3"/>
+
+            <Setter Property="FontSize"
+                    Value="14"/>
+
+            <Setter Property="FontWeight"
+                    Value="SemiBold"/>
+
+            <Setter Property="Cursor"
+                    Value="Hand"/>
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="ToggleButton">
+
+                        <Border
+                            x:Name="ButtonBorder"
+                            Background="Transparent"
+                            CornerRadius="8">
+
+                            <ContentPresenter
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Margin="18,0"/>
+
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+
+                            <!-- SELECTED -->
+
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+
+                                <Setter
+                                    TargetName="ButtonBorder"
+                                    Property="Background"
+                                    Value="#FFD21C"/>
+
+                                <Setter
+                                    Property="Foreground"
+                                    Value="#0B0B0C"/>
+
+                            </Trigger>
+
+
+                            <!-- PRESSED -->
+
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+
+                                <Setter
+                                    TargetName="ButtonBorder"
+                                    Property="Background"
+                                    Value="#DDB700"/>
+
+                                <Setter
+                                    Property="Foreground"
+                                    Value="#0B0B0C"/>
+
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+
+                </Setter.Value>
+
+            </Setter>
+
+        </Style>
+
+
+        <!-- ================= SEARCH BOX ================= -->
+
+        <Style x:Key="SearchTextBox"
+               TargetType="TextBox">
+
+            <Setter Property="Background"
+                    Value="#1C1C1E"/>
+
+            <Setter Property="Foreground"
+                    Value="{StaticResource TextBrush}"/>
+
+            <Setter Property="BorderBrush"
+                    Value="{StaticResource BorderBrush}"/>
+
+            <Setter Property="BorderThickness"
+                    Value="1"/>
+
+            <Setter Property="FontSize"
+                    Value="13"/>
+
+            <Setter Property="Height"
+                    Value="40"/>
+
+            <Setter Property="Padding"
+                    Value="12,0"/>
+
+            <Setter Property="VerticalContentAlignment"
+                    Value="Center"/>
+
+        </Style>
+
+    </Window.Resources>
+
+
+    <!-- ========================================================= -->
+    <!--                         MAIN GRID                          -->
+    <!-- ========================================================= -->
+
+    <Grid Background="{StaticResource BackgroundBrush}">
+
+        <Grid.ColumnDefinitions>
+
+            <ColumnDefinition Width="235"/>
+
+            <ColumnDefinition Width="*"/>
+
+        </Grid.ColumnDefinitions>
+
+
+        <!-- ========================================================= -->
+        <!--                         SIDEBAR                           -->
+        <!-- ========================================================= -->
+
+        <Border
+            Grid.Column="0"
+            Background="{StaticResource SidebarBrush}"
+            BorderBrush="{StaticResource BorderBrush}"
+            BorderThickness="0,0,1,0">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="105"/>
+
+                    <RowDefinition Height="*"/>
+
+                    <RowDefinition Height="70"/>
+
+                </Grid.RowDefinitions>
+
+
+                <!-- ================= LOGO ================= -->
+
+                <Border
+                    Grid.Row="0"
+                    BorderBrush="#222224"
+                    BorderThickness="0,0,0,1">
+
+                    <StackPanel
+                        VerticalAlignment="Center"
+                        Margin="25,0">
+
+                        <TextBlock
+                            Text="MODIFIER"
+                            Foreground="{StaticResource GoldBrush}"
+                            FontSize="11"
+                            FontWeight="Bold"/>
+
+                        <TextBlock
+                            Text="TOOL"
+                            Foreground="{StaticResource TextBrush}"
+                            FontSize="24"
+                            FontWeight="Bold"
+                            Margin="0,3,0,0"/>
+
+                    </StackPanel>
+
+                </Border>
+
+
+                <!-- ================= NAVIGATION ================= -->
+
+                <StackPanel
+                    Grid.Row="1"
+                    Margin="0,25,0,0">
+
+                    <TextBlock
+                        Text="MENU"
+                        Foreground="{StaticResource MutedTextBrush}"
+                        FontSize="10"
+                        FontWeight="Bold"
+                        Margin="25,0,0,10"/>
+
+
+                    <!-- BIKES -->
+
+                    <ToggleButton
+                        x:Name="BikesButton"
+                        Content="BIKES"
+                        Style="{StaticResource SidebarButton}"
+                        Click="BikesButton_Click"/>
+
+
+                    <!-- SETTINGS -->
+
+                    <ToggleButton
+                        x:Name="SettingsButton"
+                        Content="SETTINGS"
+                        Style="{StaticResource SidebarButton}"
+                        Click="SettingsButton_Click"/>
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+
+        <!-- ========================================================= -->
+        <!--                       MAIN CONTENT                        -->
+        <!-- ========================================================= -->
+
+        <Grid
+            Grid.Column="1"
+            Margin="25">
+
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="55"/>
+
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+
+
+            <!-- ================= TOP BAR ================= -->
+
+            <Grid Grid.Row="0">
+
+                <Grid.ColumnDefinitions>
+
+                    <!-- PAGE TITLE -->
+
+                    <ColumnDefinition Width="*"/>
+
+                    <!-- SEARCH -->
+
+                    <ColumnDefinition Width="280"/>
+
+                </Grid.ColumnDefinitions>
+
+
+                <!-- PAGE TITLE -->
+
+                <StackPanel
+                    Grid.Column="0"
+                    VerticalAlignment="Center">
+
+                    <TextBlock
+                        x:Name="PageTitle"
+                        Text="Bikes"
+                        Foreground="{StaticResource TextBrush}"
+                        FontSize="22"
+                        FontWeight="Bold"/>
+
+                </StackPanel>
+
+
+                <!-- ================= SEARCH BAR ================= -->
+
+                <Border
+                    x:Name="SearchBarContainer"
+                    Grid.Column="1"
+                    Height="40"
+                    Background="#1C1C1E"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    VerticalAlignment="Center">
+
+                    <Grid>
+
+                        <Grid.ColumnDefinitions>
+
+                            <ColumnDefinition Width="38"/>
+
+                            <ColumnDefinition Width="*"/>
+
+                        </Grid.ColumnDefinitions>
+
+
+                        <!-- SEARCH ICON -->
+
+                        <TextBlock
+                            Grid.Column="0"
+                            Text="⌕"
+                            Foreground="{StaticResource MutedTextBrush}"
+                            FontSize="20"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+
+
+                        <!-- SEARCH INPUT -->
+
+                        <TextBox
+                            x:Name="SearchBar"
+                            Grid.Column="1"
+                            Background="Transparent"
+                            Foreground="{StaticResource TextBrush}"
+                            BorderThickness="0"
+                            FontSize="13"
+                            VerticalContentAlignment="Center"
+                            Padding="0,0,10,0"
+                            TextChanged="SearchBar_TextChanged"
+                            ToolTip="Search bikes..."/>
+
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+
+
+            <!-- ================= CONTENT ================= -->
+
+            <Border
+                Grid.Row="1"
+                Background="{StaticResource PanelBrush}"
+                BorderBrush="{StaticResource BorderBrush}"
+                BorderThickness="1"
+                CornerRadius="12">
+
+                <ScrollViewer
+                    VerticalScrollBarVisibility="Auto"
+                    HorizontalScrollBarVisibility="Disabled">
+
+                    <StackPanel
+                        x:Name="ContentPanel"
+                        Margin="20">
+
+                        <!--
+                            Hier werden später deine UI-Elemente
+                            dynamisch untereinander eingefügt.
+                        -->
+
+                    </StackPanel>
+
+                </ScrollViewer>
+
+            </Border>
+
+        </Grid>
+
+    </Grid>
+
+</Window>
