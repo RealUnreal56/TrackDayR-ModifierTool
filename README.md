@@ -19,15 +19,21 @@ It allows you to edit various properties of bikes and create, save, and load you
 
 Download the latest release from the [Releases](https://github.com/RealUnreal56/TrackDayR-ModifierTool/releases) page.
 
-Download the latest `ModifierTool.zip`, extract it, and launch: `ModifierTool.exe`
+Download the latest `ModifierTool.zip`, extract it, and launch:
+
+```text
+ModifierTool.exe
+```
 
 The application is self-contained, so no separate .NET installation is required.
 
 ## First Launch
 
 On the first launch, ModifierTool will ask you to select your **TrackDayR mod folder**.
+
 This is the folder containing your TrackDayR mod files, such as:
-```
+
+```text
 bikes
 tracks
 cosmetics
