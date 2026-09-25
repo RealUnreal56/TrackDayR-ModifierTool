@@ -29,7 +29,9 @@ public partial class App : Application
         var updateCheck = await VersionControl.CheckForUpdates();
 
         if (updateCheck.UpdateAvailable)
-        {
+        {   
+            MessageBox.Show("PLEASE WAIT...");
+
             MessageBoxResult result = MessageBox.Show(
                 "A new version of Modifier Tool is available.\n\n" +
                 "Would you like to download the latest version?",

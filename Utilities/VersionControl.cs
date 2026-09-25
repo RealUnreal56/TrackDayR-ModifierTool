@@ -1,12 +1,12 @@
 using System.Net.Http;
-using System.Text.Json;
+using System.Windows;
 
 namespace ModifierTool;
 
 public static class VersionControl
 {
-    private const string LatestReleaseUrl =
-        "https://api.github.com/repos/RealUnreal56/TrackDayR-ModifierTool/releases/latest";
+    private const string CurrentVersionUrl =
+        "https://raw.githubusercontent.com/RealUnreal56/TrackDayR-ModifierTool/main/currentVersion.txt";
 
     public static string GetCurrentVersion()
     {
@@ -19,28 +19,24 @@ public static class VersionControl
         {
             using HttpClient client = new HttpClient();
 
-            client.DefaultRequestHeaders.UserAgent.ParseAdd("TrackDayR-Modifier");
+            client.DefaultRequestHeaders.UserAgent.ParseAdd("ModifierTool");
 
-            string json = await client.GetStringAsync(LatestReleaseUrl);
+            string onlineVersion = await client.GetStringAsync(CurrentVersionUrl);
+            onlineVersion = onlineVersion.Trim();
 
-            using JsonDocument document = JsonDocument.Parse(json);
+            string currentVersion = GetCurrentVersion();
 
-            string onlineVersion = document.RootElement
-                .GetProperty("tag_name")
-                .GetString() ?? "";
-
-            onlineVersion = onlineVersion.TrimStart('v', 'V');
-
-            if (!Version.TryParse(GetCurrentVersion(), out Version? currentVersion))
+            if (!Version.TryParse(currentVersion, out Version? current))
                 return (false, onlineVersion);
 
-            if (!Version.TryParse(onlineVersion, out Version? latestVersion))
+            if (!Version.TryParse(onlineVersion, out Version? online))
                 return (false, onlineVersion);
 
-            return (latestVersion > currentVersion, onlineVersion);
+            return (online > current, onlineVersion);
         }
-        catch
+        catch (Exception ex)
         {
+
             return (false, "");
         }
     }
