@@ -21,22 +21,22 @@ public static class VersionControl
 
             client.DefaultRequestHeaders.UserAgent.ParseAdd("ModifierTool");
 
-            string onlineVersion = await client.GetStringAsync(CurrentVersionUrl);
+            string url = CurrentVersionUrl + "?t=" + DateTime.UtcNow.Ticks;
+
+            string onlineVersion = await client.GetStringAsync(url);
+
             onlineVersion = onlineVersion.Trim();
 
-            string currentVersion = GetCurrentVersion();
-
-            if (!Version.TryParse(currentVersion, out Version? current))
+            if (!Version.TryParse(GetCurrentVersion(), out Version? currentVersion))
                 return (false, onlineVersion);
 
-            if (!Version.TryParse(onlineVersion, out Version? online))
+            if (!Version.TryParse(onlineVersion, out Version? latestVersion))
                 return (false, onlineVersion);
 
-            return (online > current, onlineVersion);
+            return (latestVersion > currentVersion, onlineVersion);
         }
-        catch (Exception ex)
+        catch
         {
-
             return (false, "");
         }
     }
