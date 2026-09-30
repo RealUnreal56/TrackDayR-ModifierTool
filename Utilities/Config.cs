@@ -1,63 +1,98 @@
+using System.Text.Json;
 using System.IO;
 
 namespace ModifierTool;
 
 public static class Config
 {
+    private static readonly string ConfigFolder =
+        Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "ModifierTool"
+        );
+
+    private static readonly string ConfigPath =
+        Path.Combine(ConfigFolder, "config.json");
+
+    private class ConfigData
+    {
+        public string PATH_MOD { get; set; } = "";
+
+        public bool FULLSCREEN { get; set; } = false;
+    }
+
     public static void Initialize()
     {
-        string configPath = "config.txt";
-
-        if (!File.Exists(configPath))
+        if (!Directory.Exists(ConfigFolder))
         {
-            string configContent =
-                "PATH = " + Environment.NewLine +
-                "FULLSCREEN = false";
-
-            File.WriteAllText(configPath, configContent);
-            return;
+            Directory.CreateDirectory(ConfigFolder);
         }
 
-        string[] lines = File.ReadAllLines(configPath);
-        List<string> configLines = lines.ToList();
-
-        if (!lines.Any(line => line.StartsWith("PATH =")))
+        if (!File.Exists(ConfigPath))
         {
-            configLines.Add("PATH = ");
-        }
+            ConfigData config = new ConfigData();
 
-        if (!lines.Any(line => line.StartsWith("FULLSCREEN =")))
-        {
-            configLines.Add("FULLSCREEN = false");
-        }
+            string json = JsonSerializer.Serialize(config, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
 
-        File.WriteAllLines(configPath, configLines);
-    }
-    public static void savePath(string path)
-    {
-        string[] lines = File.ReadAllLines("config.txt");
-        lines[0] = "PATH = " + path;
-        File.WriteAllLines("config.txt", lines);
+            File.WriteAllText(ConfigPath, json);
+        }
     }
 
-    public static string getPath()
+    public static void saveModPath(string path)
     {
-        string[] lines = File.ReadAllLines("config.txt");
-        return lines[0].Substring(7); // Remove "PATH = " prefix
+        ConfigData config = Load();
+
+        config.PATH_MOD = path;
+
+        Save(config);
+    }
+
+    public static string getModPath()
+    {
+        ConfigData config = Load();
+
+        return config.PATH_MOD;
     }
 
     public static bool IsFullscreen()
     {
-        string[] lines = File.ReadAllLines("config.txt");
-        string fullscreenValue = lines[1].Substring(12); // Remove "FULLSCREEN = " prefix
-        bool isFullscreen = bool.TryParse(fullscreenValue, out bool result) && result;
-        return isFullscreen;
+        ConfigData config = Load();
+
+        return config.FULLSCREEN;
     }
 
     public static void SetFullscreen(bool isFullscreen)
     {
-        string[] lines = File.ReadAllLines("config.txt");
-        lines[1] = "FULLSCREEN = " + isFullscreen.ToString().ToLower();
-        File.WriteAllLines("config.txt", lines);
+        ConfigData config = Load();
+
+        config.FULLSCREEN = isFullscreen;
+
+        Save(config);
+    }
+
+    private static ConfigData Load()
+    {
+        if (!File.Exists(ConfigPath))
+        {
+            return new ConfigData();
+        }
+
+        string json = File.ReadAllText(ConfigPath);
+
+        return JsonSerializer.Deserialize<ConfigData>(json)
+               ?? new ConfigData();
+    }
+
+    private static void Save(ConfigData config)
+    {
+        string json = JsonSerializer.Serialize(config, new JsonSerializerOptions
+        {
+            WriteIndented = true
+        });
+
+        File.WriteAllText(ConfigPath, json);
     }
 }

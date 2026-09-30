@@ -10,7 +10,7 @@ public static class VersionControl
 
     public static string GetCurrentVersion()
     {
-        return "1.0.0";
+        return "1.0.1";
     }
 
     public static async Task<(bool UpdateAvailable, string OnlineVersion)> CheckForUpdates()
@@ -26,6 +26,9 @@ public static class VersionControl
             string onlineVersion = await client.GetStringAsync(url);
 
             onlineVersion = onlineVersion.Trim();
+
+            Console.WriteLine($"Current Version: {GetCurrentVersion()}");
+            Console.WriteLine($"Online Version:  {onlineVersion}");
 
             if (!Version.TryParse(GetCurrentVersion(), out Version? currentVersion))
                 return (false, onlineVersion);

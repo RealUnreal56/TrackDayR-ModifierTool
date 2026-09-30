@@ -24,7 +24,7 @@ public partial class MainWindow : Window
     {
         OpenFolderDialog dialog = new OpenFolderDialog
         {
-            Title = "TrackDayR-Ordner auswählen"
+            Title = "Select TrackDayR folder"
         };
 
         bool? result = dialog.ShowDialog();
@@ -45,7 +45,7 @@ public partial class MainWindow : Window
             return;
         }
 
-        Config.savePath(path);
+        Config.saveModPath(path);
 
         // Open the next window
         MenuWindow menuWindow = new MenuWindow();

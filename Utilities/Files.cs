@@ -1,4 +1,6 @@
 using System.IO;
+using Microsoft.Win32;
+using System.Windows;
 
 namespace ModifierTool;
 
@@ -6,7 +8,7 @@ public static class Files
 {
     public static DirectoryInfo[] loadBikes()
     {
-        string path = Config.getPath() + "\\bikes";
+        string path = Config.getModPath() + "\\bikes";
 
         DirectoryInfo[] bikeFolders = new DirectoryInfo[0];
 
@@ -21,7 +23,7 @@ public static class Files
 
     public static FileInfo loadBike(string bikeFileName)
     {
-        string path = Config.getPath() + "\\bikes\\" + bikeFileName;
+        string path = Config.getModPath() + "\\bikes\\" + bikeFileName;
 
         if (!File.Exists(path))
         {

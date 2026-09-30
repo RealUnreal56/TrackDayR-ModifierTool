@@ -25,7 +25,11 @@ public partial class MenuWindow : Window
         // Startseite
         BikesButton.IsChecked = true;
         SettingsButton.IsChecked = false;
-        ShowBikes();
+
+        Loaded += (sender, e) =>
+        {
+            ShowBikes();
+        };
     }
 
 
@@ -56,37 +60,57 @@ public partial class MenuWindow : Window
 
     private void ShowBikes()
     {
-        ContentPanel.Children.Clear();
-
-        PageTitle.Text = "BIKES";
-        SearchBarContainer.Visibility = Visibility.Visible;
-
-        DirectoryInfo[] bikeFiles = Files.loadBikes();
-
-        string search = SearchBar.Text.Trim();
-
-        foreach (DirectoryInfo bike in bikeFiles)
+        try
         {
-            string bikeName = bike.Name;
-            string fileName = bike.Name;
+            ContentPanel.Children.Clear();
 
-            // Suche
-            if (!string.IsNullOrWhiteSpace(search))
+            PageTitle.Text = "BIKES";
+            SearchBarContainer.Visibility = Visibility.Visible;
+
+            DirectoryInfo[] bikeFiles = Files.loadBikes();
+
+            string search = SearchBar.Text.Trim();
+
+            foreach (DirectoryInfo bike in bikeFiles)
             {
-                bool matchesBikeName =
-                    bikeName.Contains(search, StringComparison.OrdinalIgnoreCase);
+                string bikeName = bike.Name;
+                string fileName = bike.Name;
 
-                bool matchesFileName =
-                    fileName.Contains(search, StringComparison.OrdinalIgnoreCase);
-
-                if (!matchesBikeName && !matchesFileName)
+                // Suche
+                if (!string.IsNullOrWhiteSpace(search))
                 {
-                    continue;
-                }
-            }
+                    bool matchesBikeName =
+                        bikeName.Contains(search, StringComparison.OrdinalIgnoreCase);
 
-            ContentPanel.Children.Add(CreateBikeFrame(bike));
+                    bool matchesFileName =
+                        fileName.Contains(search, StringComparison.OrdinalIgnoreCase);
+
+                    if (!matchesBikeName && !matchesFileName)
+                    {
+                        continue;
+                    }
+                }
+
+                ContentPanel.Children.Add(CreateBikeFrame(bike));
+            }
         }
+        catch (Exception)
+        {
+            MessageBox.Show(
+                "The bikes could not be loaded.\n\n" +
+                "The configured mod folder path appears to be invalid.\n\n" +
+                "Please enter the correct path to your mod folder.",
+                "Unable to Load Bikes",
+                MessageBoxButton.OK,
+                MessageBoxImage.Error
+            );
+            Config.saveModPath("");
+            MainWindow main = new MainWindow();
+            main.Show();
+
+            this.Close();
+        }
+        
     }
 
 
@@ -205,6 +229,7 @@ public partial class MenuWindow : Window
 
         modifyButton.Click += (sender, e) =>
         {
+            modifyButton.Content = "LOADING...";
             ModifyBike(bike);
         };
 
@@ -458,7 +483,7 @@ public partial class MenuWindow : Window
 
         resetPathButton.Click += (sender, e) =>
         {
-            Config.savePath("");
+            Config.saveModPath("");
 
             MessageBox.Show(
                 "Mod folder path has been cleared.",
@@ -621,6 +646,7 @@ public partial class MenuWindow : Window
                     MessageBoxImage.Information
                 );
             }
+
         };
 
 

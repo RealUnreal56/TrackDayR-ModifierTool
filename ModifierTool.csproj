@@ -7,7 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
 
-    <ApplicationIcon>icon2.ico</ApplicationIcon>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
 
     <AssemblyName>ModifierTool</AssemblyName>
     <Product>ModifierTool</Product>
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <SplashScreen Include="Assets\splash2.png" />
+    <SplashScreen Include="Assets\splash.png" />
   </ItemGroup>
 
 </Project>
